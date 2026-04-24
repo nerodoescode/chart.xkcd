@@ -10,6 +10,7 @@
   ],
   "scripts": {
     "buildUmd": "parcel build src/index.js --target browser --out-file chart.xkcd.min.js --no-source-maps --experimental-scope-hoisting --global chartXkcd",
+    "buildVendor": "npm run buildUmd && node -e \"const fs=require('fs');let c=fs.readFileSync('dist/chart.xkcd.min.js','utf8');const umd='if(typeof exports===\\\"object\\\"&&typeof module!==\\\"undefined\\\"){module.exports=ta}else if(typeof define===\\\"function\\\"&&define.amd){define(function(){return ta})}else{this[\\\"chartXkcd\\\"]=ta}';c=c.replace(umd,'return ta;');c='var __chartXkcd='+c+'\\nexport default __chartXkcd;\\n';fs.writeFileSync('../chart.xkcd/index.js',c);\" && echo Built vendor/chart.xkcd/index.js",
     "build": "parcel build src/index.js --target node --bundle-node-modules --no-source-maps --experimental-scope-hoisting",
     "start": "parcel examples/example.html",
     "prepublishOnly": "rm -rf dist && npm run buildUmd && npm run build",
