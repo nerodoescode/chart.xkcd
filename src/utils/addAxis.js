@@ -1,16 +1,17 @@
 import { axisBottom, axisLeft } from 'd3-axis/src/axis';
 
 const yAxis = (parent, {
-  yScale, tickCount, fontFamily, unxkcdify, stroke, fontSize, showLine,
+  yScale, tickCount, tickValues, fontFamily, unxkcdify, stroke, fontSize, showLine,
 }) => {
-  const g = parent
-    .append('g')
-    .call(
-      axisLeft(yScale)
-        .tickSize(showLine === false ? 0 : 1)
-        .tickPadding(10)
-        .ticks(tickCount, 's'),
-    );
+  const axis = axisLeft(yScale)
+    .tickSize(showLine === false ? 0 : 1)
+    .tickPadding(10);
+  if (tickValues) {
+    axis.tickValues(tickValues);
+  } else {
+    axis.ticks(tickCount, 's');
+  }
+  const g = parent.append('g').call(axis);
 
   g.select('.domain')
     .attr('filter', !unxkcdify ? 'url(#xkcdify)' : null)
@@ -23,7 +24,7 @@ const yAxis = (parent, {
 };
 
 const xAxis = (parent, {
-  xScale, tickCount, moveDown, fontFamily, unxkcdify, stroke, fontSize,
+  xScale, tickCount, moveDown, fontFamily, unxkcdify, stroke, fontSize, showLine,
 }) => {
   // For band/point scales, use tickValues to show only every Nth label
   // while keeping the full domain so line positions are correct.
@@ -44,7 +45,7 @@ const xAxis = (parent, {
 
   g.select('.domain')
     .attr('filter', !unxkcdify ? 'url(#xkcdify)' : null)
-    .style('stroke', stroke);
+    .style('stroke', showLine === false ? 'none' : stroke);
 
   g.selectAll('.tick > text')
     .style('font-family', fontFamily)

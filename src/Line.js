@@ -114,11 +114,13 @@ class Line {
       unxkcdify: this.options.unxkcdify,
       stroke: this.options.strokeColor,
       fontSize: this.options.axisFontSize,
+      showLine: this.options.showXAxisLine,
     });
 
     addAxis.yAxis(graphPart, {
       yScale,
       tickCount: this.options.yTickCount || 3,
+      tickValues: this.options.yTickValues,
       fontFamily: this.fontFamily,
       unxkcdify: this.options.unxkcdify,
       stroke: this.options.strokeColor,
