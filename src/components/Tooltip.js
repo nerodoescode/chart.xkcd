@@ -38,6 +38,7 @@ class Tooltip {
     this.backgroundOpacity = backgroundOpacity != null ? backgroundOpacity : 0.9;
     this.borderWidth = borderWidth != null ? borderWidth : 2;
     this.fontSize = fontSize != null ? fontSize : 15;
+    console.log('[Tooltip] bg:', this.backgroundColor, 'opacity:', this.backgroundOpacity, 'font:', this.fontColor, 'border:', this.borderColor);
 
     this.svg = parent.append('svg')
       .attr('x', this._getUpLeftX())
