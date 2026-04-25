@@ -89,6 +89,11 @@ class Line {
       // tooltip still has a readable background.
       backgroundColor: this.options.tooltipBackgroundColor != null ? this.options.tooltipBackgroundColor : this.options.backgroundColor,
       strokeColor: this.options.tooltipStrokeColor != null ? this.options.tooltipStrokeColor : this.options.strokeColor,
+      fontColor: this.options.tooltipFontColor,
+      borderColor: this.options.tooltipBorderColor,
+      backgroundOpacity: this.options.tooltipBackgroundOpacity,
+      borderWidth: this.options.tooltipBorderWidth,
+      fontSize: this.options.tooltipFontSize,
     });
 
     const xScale = scalePoint()
@@ -217,7 +222,7 @@ class Line {
 
         const tooltipItems = this.data.datasets.map((dataset, j) => ({
           color: this.options.dataColors[j],
-          text: `${this.data.datasets[j].label || ''}: ${this.data.datasets[j].data[nearestIndex]}`,
+          text: `${this.data.datasets[j].label || ''}: ${this.options.tooltipValuePrefix || ''}${this.data.datasets[j].data[nearestIndex]}${this.options.tooltipValueSuffix || ''}`,
         }));
 
         let tooltipPositionType = config.positionType.downRight;

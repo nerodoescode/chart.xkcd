@@ -91,8 +91,13 @@ class XY {
       items: [{ color: 'red', text: 'weweyang' }, { color: 'blue', text: 'timqian' }],
       position: { x: 60, y: 60, type: config.positionType.dowfnRight },
       unxkcdify: this.options.unxkcdify,
-      strokeColor: this.options.strokeColor,
-      backgroundColor: this.options.backgroundColor,
+      backgroundColor: this.options.tooltipBackgroundColor != null ? this.options.tooltipBackgroundColor : this.options.backgroundColor,
+      strokeColor: this.options.tooltipStrokeColor != null ? this.options.tooltipStrokeColor : this.options.strokeColor,
+      fontColor: this.options.tooltipFontColor,
+      borderColor: this.options.tooltipBorderColor,
+      backgroundOpacity: this.options.tooltipBackgroundOpacity,
+      borderWidth: this.options.tooltipBorderWidth,
+      fontSize: this.options.tooltipFontSize,
     });
 
     if (this.options.timeFormat) {
@@ -209,7 +214,7 @@ class XY {
           title: this.options.timeFormat ? dayjs(this.data.datasets[xyGroupIndex].data[i].x).format(this.options.timeFormat) : `${this.data.datasets[xyGroupIndex].data[i].x}`,
           items: [{
             color: this.options.dataColors[xyGroupIndex],
-            text: `${this.data.datasets[xyGroupIndex].label || ''}: ${d.y}`,
+            text: `${this.data.datasets[xyGroupIndex].label || ''}: ${this.options.tooltipValuePrefix || ''}${d.y}${this.options.tooltipValueSuffix || ''}`,
           }],
           position: {
             x: tipX,

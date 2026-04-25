@@ -25,6 +25,7 @@ class Tooltip {
    */
   constructor({
     parent, title, items, position, unxkcdify, backgroundColor, strokeColor,
+    fontColor, borderColor, backgroundOpacity, borderWidth, fontSize,
   }) {
     this.title = title;
     this.items = items;
@@ -32,6 +33,11 @@ class Tooltip {
     this.filter = !unxkcdify ? 'url(#xkcdify)' : null;
     this.backgroundColor = backgroundColor;
     this.strokeColor = strokeColor;
+    this.fontColor = fontColor != null ? fontColor : strokeColor;
+    this.borderColor = borderColor != null ? borderColor : strokeColor;
+    this.backgroundOpacity = backgroundOpacity != null ? backgroundOpacity : 0.9;
+    this.borderWidth = borderWidth != null ? borderWidth : 2;
+    this.fontSize = fontSize != null ? fontSize : 15;
 
     this.svg = parent.append('svg')
       .attr('x', this._getUpLeftX())
@@ -40,9 +46,9 @@ class Tooltip {
 
     this.tipBackground = this.svg.append('rect')
       .style('fill', this.backgroundColor)
-      .attr('fill-opacity', 0.9)
-      .attr('stroke', strokeColor) // FIXME: find a good way to calculate boder color form this.strokeColor
-      .attr('stroke-width', 2)
+      .attr('fill-opacity', this.backgroundOpacity)
+      .attr('stroke', this.borderColor)
+      .attr('stroke-width', this.borderWidth)
       .attr('rx', 5)
       .attr('ry', 5)
       .attr('filter', this.filter)
@@ -52,9 +58,9 @@ class Tooltip {
       .attr('y', 5);
 
     this.tipTitle = this.svg.append('text')
-      .style('font-size', 15)
+      .style('font-size', this.fontSize)
       .style('font-weight', 'bold')
-      .style('fill', this.strokeColor)
+      .style('fill', this.fontColor)
       .attr('x', 15)
       .attr('y', 25)
       .text(title);
@@ -121,8 +127,8 @@ class Tooltip {
       .attr('y', 37 + 20 * i);
 
     svg.append('text')
-      .style('font-size', '15')
-      .style('fill', this.strokeColor)
+      .style('font-size', this.fontSize)
+      .style('fill', this.fontColor)
       .attr('x', 15 + 12)
       .attr('y', 37 + 20 * i + 8)
       .text(item.text);

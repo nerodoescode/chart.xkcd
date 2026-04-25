@@ -82,8 +82,13 @@ class Bar {
       items: [{ color: 'red', text: 'weweyang: 12' }, { color: 'blue', text: 'timqian: 13' }],
       position: { x: 30, y: 30, type: config.positionType.upRight },
       unxkcdify: this.options.unxkcdify,
-      backgroundColor: this.options.backgroundColor,
-      strokeColor: this.options.strokeColor,
+      backgroundColor: this.options.tooltipBackgroundColor != null ? this.options.tooltipBackgroundColor : this.options.backgroundColor,
+      strokeColor: this.options.tooltipStrokeColor != null ? this.options.tooltipStrokeColor : this.options.strokeColor,
+      fontColor: this.options.tooltipFontColor,
+      borderColor: this.options.tooltipBorderColor,
+      backgroundOpacity: this.options.tooltipBackgroundOpacity,
+      borderWidth: this.options.tooltipBorderWidth,
+      fontSize: this.options.tooltipFontSize,
     });
 
     const xScale = scaleBand()
@@ -159,7 +164,7 @@ class Bar {
           title: this.data.labels[i],
           items: [{
             color: this.options.dataColors[i],
-            text: `${this.data.datasets[0].label || ''}: ${d}`,
+            text: `${this.data.datasets[0].label || ''}: ${this.options.tooltipValuePrefix || ''}${d}${this.options.tooltipValueSuffix || ''}`,
           }],
           position: {
             x: tipX,

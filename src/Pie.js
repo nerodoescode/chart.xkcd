@@ -39,12 +39,15 @@ class Pie {
       this.fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
     }
 
+    const svgWidth = this.options.width || svg.parentElement.clientWidth;
+    const svgHeight = this.options.height || Math.min((svgWidth * 2) / 3, window.innerHeight);
+
     this.svgEl = select(svg)
       .style('stroke-width', '3')
       .style('font-family', this.fontFamily)
       .style('background', this.options.backgroundColor)
-      .attr('width', svg.parentElement.clientWidth)
-      .attr('height', Math.min((svg.parentElement.clientWidth * 2) / 3, window.innerHeight));
+      .attr('width', svgWidth)
+      .attr('height', svgHeight);
     this.svgEl.selectAll('*').remove();
 
     this.width = this.svgEl.attr('width');
@@ -71,8 +74,13 @@ class Pie {
       items: [{ color: 'red', text: 'weweyang: 12' }, { color: 'blue', text: 'timqian: 13' }],
       position: { x: 30, y: 30, type: config.positionType.upRight },
       unxkcdify: this.options.unxkcdify,
-      strokeColor: this.options.strokeColor,
-      backgroundColor: this.options.backgroundColor,
+      backgroundColor: this.options.tooltipBackgroundColor != null ? this.options.tooltipBackgroundColor : this.options.backgroundColor,
+      strokeColor: this.options.tooltipStrokeColor != null ? this.options.tooltipStrokeColor : this.options.strokeColor,
+      fontColor: this.options.tooltipFontColor,
+      borderColor: this.options.tooltipBorderColor,
+      backgroundOpacity: this.options.tooltipBackgroundOpacity,
+      borderWidth: this.options.tooltipBorderWidth,
+      fontSize: this.options.tooltipFontSize,
     });
 
     const radius = Math.min(this.width, this.height) / 2 - margin;
@@ -114,7 +122,7 @@ class Pie {
           title: this.data.labels[i],
           items: [{
             color: this.options.dataColors[i],
-            text: `${this.data.datasets[0].label || ''}: ${d.data}`,
+            text: `${this.data.datasets[0].label || ''}: ${this.options.tooltipValuePrefix || ''}${d.data}${this.options.tooltipValueSuffix || ''}`,
           }],
           position: {
             x: tipX,

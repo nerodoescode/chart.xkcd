@@ -75,8 +75,13 @@ class Radar {
       items: [],
       position: { x: 0, y: 0, type: config.positionType.downRight },
       unxkcdify: this.options.unxkcdify,
-      strokeColor: this.options.strokeColor,
-      backgroundColor: this.options.backgroundColor,
+      backgroundColor: this.options.tooltipBackgroundColor != null ? this.options.tooltipBackgroundColor : this.options.backgroundColor,
+      strokeColor: this.options.tooltipStrokeColor != null ? this.options.tooltipStrokeColor : this.options.strokeColor,
+      fontColor: this.options.tooltipFontColor,
+      borderColor: this.options.tooltipBorderColor,
+      backgroundOpacity: this.options.tooltipBackgroundOpacity,
+      borderWidth: this.options.tooltipBorderWidth,
+      fontSize: this.options.tooltipFontSize,
     });
 
     const dotInitSize = 3.5 * (this.options.dotSize || 1);
@@ -200,7 +205,7 @@ class Radar {
           title: this.data.labels[i],
           items: this.data.datasets.map((dataset, datasetIndex) => ({
             color: this.options.dataColors[datasetIndex],
-            text: `${dataset.label || ''}: ${dataset.data[i]}`,
+            text: `${dataset.label || ''}: ${this.options.tooltipValuePrefix || ''}${dataset.data[i]}${this.options.tooltipValueSuffix || ''}`,
           })),
           position: {
             x: tipX,
